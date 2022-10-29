@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { MSidebar } from './components/Sidebar/Sidebar';
+import { useStateContext } from './contexts/ContextProvider';
+import { MNavbar } from './components/Navbar/Navbar';
 
-function App() {
+import AnimatedRoutes from './components/AnimatedRoutes';
+
+// const navbarMotion = {
+//   hidden: { opacity: 0 },
+//   visible: { opacity: 1, transition: { delay: 6 } },
+// };
+
+const sidebarMotion = {
+  hidden: { opacity: 0, x: 300 },
+  visible: { opacity: 1, x: 0, transition: { mass: 1 } },
+};
+
+const App = () => {
+  const { isOpen } = useStateContext();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <motion.div initial="hidden" whileInView="visible">
+      {isOpen && (
+        <MSidebar variants={sidebarMotion} initial="hidden" animate="visible" />
+      )}
+      <MNavbar />
+      <AnimatedRoutes />
+    </motion.div>
   );
-}
+};
 
 export default App;
